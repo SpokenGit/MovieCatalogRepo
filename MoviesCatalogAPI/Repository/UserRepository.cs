@@ -32,5 +32,19 @@ namespace MoviesCatalogAPI.Repository
                 throw new ArgumentNullException(); ;
             }
         }
+
+        public void AddUser(User user)
+        {
+            try
+            {
+                _dbContext.Users.Add(user);
+                _dbContext.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }
