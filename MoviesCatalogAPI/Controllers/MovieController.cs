@@ -9,9 +9,10 @@ using Pipelines.Sockets.Unofficial.Buffers;
 
 namespace MoviesCatalogAPI.Controllers
 {
-    [Authorize]
+   
     [Route("api/Movie")]
     [ApiController]
+    [Authorize(Policy = "ONLYADMIN")]
     public class MovieController : ControllerBase
     {
         private readonly IMovies _IMovie;

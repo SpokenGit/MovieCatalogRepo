@@ -12,6 +12,7 @@ namespace MoviesCatalogAPI.Data
 
         public DbSet<Movie> Movies { get; set; }
         public DbSet<User> Users { get; set; }
+        public  DbSet<MovieRating> movieRatings { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

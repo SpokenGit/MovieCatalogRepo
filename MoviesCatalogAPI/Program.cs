@@ -21,6 +21,7 @@ builder.Services.AddDbContext<MovieDbContext>(x => x.UseSqlServer(connectionStri
 
 builder.Services.AddTransient<IMovies, MovieRepository>();
 builder.Services.AddTransient<IUsers,UserRepository>();
+builder.Services.AddTransient<IMovieRating, MovieRatingRepository>();
 
 
 builder.Services.AddControllers();
@@ -43,7 +44,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ONLYADMIN", policy => policy.RequireClaim("UserRol","ADMIN"));
+});
 
 var app = builder.Build();
 
