@@ -26,11 +26,11 @@ namespace MoviesCatalogAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(User _userData)
+        public async Task<IActionResult> Post(UserCredentials _userData)
         {
-            if (_userData != null && _userData.UserEmail != null && _userData.UserPassword != null)
+            if (_userData != null && _userData.Username != null && _userData.Userpassword != null)
             {
-                var user =   _IUser.GetUser(_userData.UserName.Trim(), _userData.UserPassword.Trim());
+                var user =   _IUser.GetUser(_userData.Username.Trim(), _userData.Userpassword.Trim());
 
                 if (user != null)
                 {
