@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MoviesCatalogAPI.Data;
+using MoviesCatalogAPI.Helpers;
 using MoviesCatalogAPI.Interface;
+using MoviesCatalogAPI.Models;
 using MoviesCatalogAPI.Repository;
 using System.Text;
 
@@ -22,7 +24,7 @@ builder.Services.AddDbContext<MovieDbContext>(x => x.UseSqlServer(connectionStri
 builder.Services.AddTransient<IMovies, MovieRepository>();
 builder.Services.AddTransient<IUsers,UserRepository>();
 builder.Services.AddTransient<IMovieRating, MovieRatingRepository>();
-
+builder.Services.AddScoped<ISortHelper<Movie>, SortHelper<Movie>>();
 
 builder.Services.AddControllers();
 

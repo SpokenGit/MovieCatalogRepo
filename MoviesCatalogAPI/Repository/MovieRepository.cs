@@ -3,15 +3,24 @@ using MoviesCatalogAPI.Data;
 using MoviesCatalogAPI.Interface;
 using MoviesCatalogAPI.Models;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+
+using System;
+using System.Linq.Dynamic.Core;
+using MoviesCatalogAPI.Helpers;
+using Pipelines.Sockets.Unofficial.Buffers;
 
 namespace MoviesCatalogAPI.Repository
 {
     public class MovieRepository :IMovies
     {
         readonly MovieDbContext _dbContext ;
+        private ISortHelper<Movie> _sortHelper;
 
-        public MovieRepository(MovieDbContext dbContext) {
+        public MovieRepository(MovieDbContext dbContext, ISortHelper<Movie> sortHelper) {
             _dbContext = dbContext ;
+            _sortHelper = sortHelper ;
         }
 
         public void AddMovie(Movie movie)
@@ -64,9 +73,10 @@ namespace MoviesCatalogAPI.Repository
 
                 FilterByText(ref movies, movieParameters);
                 SearchByText(ref movies, movieParameters.Searchby);
+                var sortedMovies = _sortHelper.ApplySort(movies, movieParameters.OrderBy);
 
-                 
-                return PagedList<Movie>.ToPagedList(movies, movieParameters.PageNumber,movieParameters.PageSize);
+
+                return PagedList<Movie>.ToPagedList(sortedMovies, movieParameters.PageNumber,movieParameters.PageSize);
                
             }
             catch
@@ -124,6 +134,7 @@ namespace MoviesCatalogAPI.Repository
                 movies = movies.Where(x => x.MovieCategory.Equals(movieParameters.Category.Trim()));
 
         }
+
 
     }
 }
